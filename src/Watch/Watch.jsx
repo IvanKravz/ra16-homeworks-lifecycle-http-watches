@@ -1,8 +1,6 @@
 import { Component } from 'react'
-import { addHours, format } from "date-fns";
 import PropTypes from 'prop-types';
 import './Watch.css'
-
 
 export default class Watch extends Component {
   constructor(props) {
@@ -21,11 +19,16 @@ export default class Watch extends Component {
     clearInterval(this.interval);
   }
 
+  getTime(zone) {
+    const date = new Date(new Date().getTime() + zone * 3600000);
+    return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+  }
+
   render() {
     return (
       <div className='watch'>
         <div className='title'>{this.title}</div>
-        <div className='time'>{format(addHours(new Date(), this.zone), "HH:mm:ss")}</div>
+        <div className='time'>{this.getTime(this.zone)}</div>
         <div className='zone'>{this.zone}</div>
         {this.props.children}
       </div>
